@@ -1,0 +1,1 @@
+This paper is also available at [arxiv](https://arxiv.org/abs/2103.01840), furthermore the original Master Thesis work can be found in the [ETH Research Collection](https://www.research-collection.ethz.ch/handle/20.500.11850/471229).
