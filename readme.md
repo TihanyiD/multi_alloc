@@ -1,23 +1,27 @@
-Multi-robot task allocation for safe planning under dynamic uncertainties
+Multi-robot task allocation for safe planning against stochastic hazard dynamics
 ====
 This study is available at [arxiv](https://arxiv.org/abs/2103.01840), furthermore the original Master Thesis work can be found in the [ETH Research Collection](https://www.research-collection.ethz.ch/handle/20.500.11850/471229).
 
 **Repository content**
-This repository contains the implementation of the two-stage framework introduced in the paper along with the results for the respective case studies. We implemented the framework in python (see files in the [two_stage_framework](https://github.com/TihanyiD/multi_alloc/tree/master/two_stage_framework) folder) and provided a visual studio project [solution](https://github.com/TihanyiD/multi_alloc/blob/master/two_stage_framework.sln).
+This repository contains the implementation of the two-stage framework introduced in the paper extended with a framework for generating random maps and save statistical results. We implemented the framework in python (see files in the [two_stage_framework](https://github.com/TihanyiD/multi_alloc/tree/master/two_stage_framework) folder). This folder contains two subfolders:
+
+* The [two_stage_framework_case_studies](https://github.com/TihanyiD/multi_alloc/tree/master/two_stage_framework/two_stage_framework_case_studies) folder) for examining existing case studies and generating new ones.
+
+* The [two_stage_framework_random_maps](https://github.com/TihanyiD/multi_alloc/tree/master/two_stage_framework/two_stage_framework_random_maps) folder) for generating random maps and statistics given certain hyperparameters and a fixed map structure.
 
 Overview
 ----
 
 The purpose of the framework is to generate control policies for the robots which maximizes the probability of avoiding the evolving hazard while visiting the known target locations. This requires both the allocation of targets between the robots and the generation of paths for them. 
 
-By using the implementation presented in this repository, one can create new example environments and obtain solutions for them, or plot the pre-computed results of existing case studies.
+By using the implementation presented in this repository, one can create new example environments and obtain solutions for them, or plot the pre-computed results of existing case studies. Furthermore, one can also generate random maps and statistics with given hyperparameters for a fixed map structure.
 
 Examining existing case studies
 ----
 
 Follow the instructions below:
 
-* Open the ["two_stage_framework.py"](https://github.com/TihanyiD/multi_alloc/blob/master/two_stage_framework/two_stage_framework.py) file.
+* Open the ["two_stage_framework.py"](https://github.com/TihanyiD/multi_alloc/blob/master/two_stage_framework/two_stage_framework_case_studies/two_stage_framework.py) file.
 
 * Make sure that the following flag is set to "True".
 
@@ -40,7 +44,7 @@ Creating a new example
 
 Follow the instructions below:
 
-* Open the ["two_stage_framework.py"](https://github.com/TihanyiD/multi_alloc/blob/master/two_stage_framework/two_stage_framework.py) file.
+* Open the ["two_stage_framework.py"](https://github.com/TihanyiD/multi_alloc/blob/master/two_stage_framework/two_stage_framework_case_studies/two_stage_framework.py) file.
 
 * Make sure that the following flag is set to "False".
 
@@ -120,6 +124,35 @@ parameters.p_stay=0
 
 The code generates the map of the example with the initial state of the hazard sources and the robots (make sure to hid "close" for the program to move on). The code then loads the pre-computed results. They are shown in the command line. The generated robot paths are shown in figures.
 
+Generating random maps and statistics
+----
+
+Follow the instructions below:
+
+* Open the ["two_stage_framework.py"](https://github.com/TihanyiD/multi_alloc/blob/master/two_stage_framework/two_stage_framework_random_maps/two_stage_framework.py) file.
+
+* Focus on the parameters between lines 257 and 264.
+
+```
+# Parameters
+n_samples=20
+n_repeat_samples=5    
+n_targets=2
+n_robots=2
+n_hazards=3
+hazard_p_f=0.02
+open_case_study=False
+```
+
+* Make sure that the following flag is set to "False".
+
+```
+open_case_study=False
+```
+
+* The following variables can be modified to generate random samples and statistics: "n_samples" - the number of generated random maps; "n_repeat_samples" - in case the generated samples is invalid (this occurs if the map is impossible to solve even with the perfect strategy) the random map is regenerated this many times; "n_targets" - the number of randomly placed targets (must be between 1 and 8); "n_robots" - the number of randomly placed robots (must be between 1 and 5); "n_hazards" - the number of randomly placed hazard sources (must be between 1 and 4); and "hazard_p_f" - the common spread speed parameter of the hazard sources (must be between 0 and 1).
+
+* The statistics are saved in a table named "results_table.csv". The table contains the overall calculation time data in seconds and the optimal success probability values for each algorithm and each sample.
 
 Contact
 ----
